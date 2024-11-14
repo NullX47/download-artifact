@@ -8,7 +8,6 @@ branding:
 inputs:
   name:
     description: 'Artifact name'
-    default: 'artifact'
     required: false
   path:
     description: 'Destination path'
@@ -48,7 +47,7 @@ runs:
   steps:
     - name: '📥 download artifact'
       id: download-artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v4.1.8
       with:
         name: ${{ inputs.name }}
         path: ${{ inputs.path }}
@@ -61,9 +60,9 @@ runs:
     - name: '📦 tar inputs'
       shell: 'bash'
       working-directory: ${{ inputs.path }}
-      run: tar -xvf ${{ inputs.name }}.tar
+      run: ls *.tar |xargs -n1 tar -xvf
 
     - name: '🧹 cleanup'
       shell: 'bash'
       working-directory: ${{ inputs.path }}
-      run: rm -f ${{ inputs.name }}.tar
+      run: rm -f *.tar
